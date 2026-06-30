@@ -21,7 +21,7 @@ import { ChartGroupSelector } from '@/components/filters/ChartGroupSelector'
 import { CustomScrollbar } from '@/components/ui/CustomScrollbar'
 import { GlobalKPICards } from '@/components/GlobalKPICards'
 import { getChartsForGroup } from '@/lib/chart-groups'
-import { Lightbulb, X, Layers, LayoutGrid, Settings } from 'lucide-react'
+import { Lightbulb, X, Layers, LayoutGrid, Settings, AlertCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Footer } from '@/components/Footer'
 import Image from 'next/image'
@@ -204,7 +204,7 @@ export default function DashboardPage() {
                 Coherent Dashboard
               </h1>
               <h2 className="text-sm text-black">
-                {dashboardName || 'Global Normothermic Machine Perfusion Market'}
+                {dashboardName || 'Global Artillery Shells Market'}
               </h2>
             </div>
           </div>
@@ -212,8 +212,16 @@ export default function DashboardPage() {
         </div>
 
         {/* Global KPI Cards */}
-        <div className="mb-6">
+        <div className="mb-3">
           <GlobalKPICards />
+        </div>
+
+        {/* Demo Data Notice */}
+        <div className="mb-6 flex items-start gap-2 px-4 py-3 bg-amber-50 border border-amber-300 rounded-lg text-sm text-amber-800">
+          <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0 text-amber-500" />
+          <span>
+            <strong>Note:</strong> All the data in the dashboard is demo data. No real world data is related to this.
+          </span>
         </div>
 
 

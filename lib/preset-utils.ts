@@ -19,28 +19,30 @@ export function getTopRegionsByMarketValue(
 ): string[] {
   if (!data) return []
 
+  // Only consider top-level regions (not individual countries) to avoid parent/child overlap
+  const regionsOnly = new Set(data.dimensions.geographies.regions || [])
+
   // Get all value data records
   const records = data.data.value.geography_segment_matrix
 
-  // Calculate total market value by geography for the specified year
-  // Treat all geographies as single entities - aggregate by name
+  // Calculate total market value by region for the specified year
   const geographyTotals = new Map<string, number>()
 
   records.forEach((record: DataRecord) => {
     const geography = record.geography
     const value = record.time_series[year] || 0
 
-    // Skip global level
+    // Skip global level and individual countries — regions only
     if (geography === 'Global') return
+    if (regionsOnly.size > 0 && !regionsOnly.has(geography)) return
 
-    // Treat all geographies as single entities - aggregate by name
     const currentTotal = geographyTotals.get(geography) || 0
     geographyTotals.set(geography, currentTotal + value)
   })
 
-  // Sort geographies by total value and get top N
+  // Sort regions by total value and get top N
   const sortedGeographies = Array.from(geographyTotals.entries())
-    .sort((a, b) => b[1] - a[1]) // Sort by value descending
+    .sort((a, b) => b[1] - a[1])
     .slice(0, topN)
     .map(([geography]) => geography)
 
